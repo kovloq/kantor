@@ -1,0 +1,33 @@
+<?php
+$homepage = file_get_contents('http://www.google.com/search?q=eek',0);
+$res=explode("<div id=\"ires\">",$homepage);
+
+$link=explode("<h3 class=\"r\"><a href=\"",$res[1]);
+$i=0;
+$jsonData = array('page'=>1,'total'=>0,'rows'=>array());
+$no=0;
+foreach($link as $list)
+{$i++;
+	if($i==1 || $i==11||$i==12){
+		continue;
+	}
+	$isi=explode("<div class=\"s\">",$list);
+	$content=explode("\">",$isi[0]);
+	$url=str_replace("/url?q=","",$content[0]);
+	$title=str_replace(array("<b>","</b>"),"",$content[1]);
+	$no++;
+ 	$entry = array('id' => $i,
+                'cell'=>array(
+                    'no'       => $no,
+                    'url'             => $url,
+                    'title' => $row['primary_language']
+                )
+            );
+            $jsonData['rows'][] = $entry;
+	//echo str_replace("/url?q=","",$content[0])." ".str_replace(array("<b>","</b>"),"",$content[1])."</br>";
+
+}
+$jsonData['total'] = $no;
+echo json_encode($jsonData);
+
+?>

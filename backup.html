@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Flexigrid</title>
+<link rel="stylesheet" href="css/jquery.treeview.css" />
+<link rel="stylesheet" type="text/css" href="css/flexigrid.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/flexigrid.js"></script>
+<script src="js/jquery.cookie.js" type="text/javascript"></script>
+<script src="js/jquery.treeview.js" type="text/javascript"></script>
+</head>
+<body>
+<ul id="tree">
+<li><a href="#">Politicians</a>
+	<ul>
+		<li><a class="link" href="#">Sub1</a></li>
+		<li><a onclick="loadurl(this)" href="#">kampret</a></li>
+	</ul>
+</li>
+<li><a href="#">Singers</a>
+	<ul>
+		<li><a onclick="loadurl(this)" href="#">bieber</a></li>
+		<li><a onclick="loadurl(this)" href="#">MUSE</a></li>
+	</ul>
+</li>
+<li><a href="#">Actors</a>
+	<ul>
+		<li><a onclick="loadurl(this)" href="#">kovloq</a></li>
+		<li><a onclick="loadurl(this)" href="#">Dana</a></li>
+	</ul>
+</li>
+<li><a href="#">Scientist</a>
+	<ul>
+		<li><a onclick="loadurl(this)" href="#">Galileo</a></li>
+		<li><a onclick="loadurl(this)" href="#">Edison</a></li>
+	</ul>
+</li>
+</ul>
+<table id="flex1" style="display:none"></table>
+<script type="text/javascript">
+$(function() {
+			$("#tree").treeview({
+				collapsed: true,
+				animated: "medium",
+				persist: "location"
+			});
+		})
+$("#flex1").flexigrid({
+	url: 'coba.php',
+	dataType: 'json',
+	colModel : [
+		{display: 'No', width:20,name : 'no', sortable : true, align: 'left'},
+		{display: 'Title', width:200,name : 'title', sortable : true, align: 'left'},
+		{display: 'URL', width:400,name : 'url', sortable : true, align: 'left'}
+		],
+	
+	title: 'Search result',
+	width:700
+	
+});
+function myFunction(etc){
+	var link=etc.innerHTML;
+	document.getElementById("iframe").src=link;
+	return false;
+}
+
+function loadurl(load){
+	var val=load.innerHTML;
+	//jQuery('#flex1').flexOptions({url: 'coba.php?q=eek'}).flexReload(); 
+	$('#flex1').flexOptions({url: 'coba.php?q='+val}).flexReload(); 
+	alert(val);
+}
+
+//$(document).ready(function () {
+	//$('.link').click(function(){
+		//alert(this.innerHTML);
+		$("#flex1").flexOptions({url: 'coba.php?q=eek'}).flexReload(); 
+	//})
+//})
+</script>
+<iframe id="iframe" src="about:blank" width="1000" height="450" frameborder="0" scrolling="no">
+</iframe> 
+</body>
+</html>
